@@ -1,0 +1,30 @@
+version: "3"
+services:
+  minecraft-1.12:
+    build: 
+      context: ./minecraft-java
+      args:
+        - MINECRAFT_VERSION=${MINECRAFT_VERSION}
+        - FORGE_VERSION=${FORGE_VERSION}
+        - XMS=${XMX}
+        - XMX=${XMS}
+    env_file:
+      - ./.env
+    container_name: minecraft-server
+    restart: always
+    stdin_open: true
+    tty: true
+    volumes:
+      - "./minecraft-java/srv/world:${WORK_DIR}/server/world"
+      - "./minecraft-java/srv/mods:${WORK_DIR}/server/mods"
+      - "./minecraft-java/srv/config:${WORK_DIR}/server/config"
+      - "./minecraft-java/srv/logs:${WORK_DIR}/server/logs"
+      - "./minecraft-java/srv/whitelist.json:${WORK_DIR}/server/whitelist.json"
+      - "./minecraft-java/srv/usercache.json:${WORK_DIR}/server/usercache.json"
+      - "./minecraft-java/srv/server.properties:${WORK_DIR}/server/server.properties"
+      - "./minecraft-java/srv/ops.json:${WORK_DIR}/server/ops.json"
+      - "./minecraft-java/srv/eula.txt:${WORK_DIR}/server/eula.txt"
+      - "./minecraft-java/srv/banned-players.json:${WORK_DIR}/server/banned-players.json"
+      - "./minecraft-java/srv/banned-ips.json:${WORK_DIR}/server/banned-ips.json"
+    ports: 
+      - 25565:25565
